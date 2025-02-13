@@ -24,7 +24,7 @@ jobs:
         password: ${{secrets.DOCKER_PASSWORD}}
     
     - name: Build the Docker image
-      run: docker compose -p ${{secrets.REPO_NAME}} build 
+      run: docker compose build --tag ${{secrets.DOCKER_USERNAME}}/${{secrets.REPO_NAME}}:latest
     
     - name: Push the image to DockerHub registry
-      run: docker push ${{secrets.REPO_NAME}}
+      run: docker push ${{secrets.DOCKER_USERNAME}}/${{secrets.REPO_NAME}}:latest
