@@ -24,7 +24,7 @@ jobs:
         password: ${{secrets.DOCKER_PASSWORD}}
     
     - name: Build the Docker image
-      run: docker compose -p ${{secrets.DOCKER_USERNAME}}/${{secrets.REPO_NAME}}:latest build 
+      run: docker compose -p java_api build 
     
     - name: Push the image to DockerHub registry
-      run: docker push ${{secrets.DOCKER_USERNAME}}/${{secrets.REPO_NAME}}:latest
+      run: docker push java_api
