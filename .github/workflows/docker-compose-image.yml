@@ -27,4 +27,6 @@ jobs:
       run: docker compose -p java_api build 
     
     - name: Push the image to DockerHub registry
-      run: docker push java_api
+      run: |
+        docker tag java_api ${{secrets.DOCKER_USERNAME}}/${{secrets.REPO_NAME}}
+        docker push ${{secrets.DOCKER_USERNAME}}/${{secrets.REPO_NAME}}
