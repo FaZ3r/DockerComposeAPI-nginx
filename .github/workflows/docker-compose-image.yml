@@ -24,11 +24,10 @@ jobs:
         password: ${{secrets.DOCKER_PASSWORD}}
     
     - name: Build the Docker image
-      run: docker compose build
+      run: docker compose -p java_api build 
     
     - name: Push the image to DockerHub registry
       run: |
-        IMAGE_NAME: ${{secrets.DOCKER_USERNAME}}/${{secrets.REPO_NAME}}:latest
-        COMPOSE_IMAGE= $(docker images --format "{{.Repository}}" | grep "_web$")
-        docker tag $COMPOSE_IMAGE $IMAGE_NAME
+        IMAGE_NAME= ${{secrets.DOCKER_USERNAME}}/${{secrets.REPO_NAME}}:latest
+        docker tag java_api $IMAGE_NAME
         docker push $IMAGE_NAME
