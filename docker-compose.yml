@@ -14,7 +14,7 @@ services:
       - my_network
     container_name: DATABASE
   app:
-    build: .
+    IMAGE: ${{IMAGE_NAME}}
     container_name: applicationAPI
     depends_on:
       - db
