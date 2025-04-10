@@ -1,10 +1,10 @@
 name: Ansible EC2 Provision and Deployment
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_run:
+    workflows: ["Docker Compose Image CI"]
+    types: 
+      - completed
 jobs:
 #install ansible -done
 #log into github ansible repo with credentials -not needed
