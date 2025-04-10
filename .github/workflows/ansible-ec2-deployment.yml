@@ -1,10 +1,10 @@
 name: Ansible EC2 Provision and Deployment
 
 on:
-  branches: [main]
-pull request:
-  branches: [main]
-
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 jobs:
 #install ansible -done
 #log into github ansible repo with credentials -not needed
