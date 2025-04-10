@@ -1,0 +1,59 @@
+name: Ansible EC2 Provision and Deployment
+
+on:
+  branches: [main]
+pull request:
+  branches: [main]
+
+jobs:
+#install ansible -done
+#log into github ansible repo with credentials -not needed
+  #provide credentials for said repo - NEEDED
+#checkout ansible script - done
+#install docker cli? - preinstalled on runner 
+#checkout docker-compose script
+  provision-and-deploy-to-EC2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+
+      - name: Ansible install
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+      
+      - name: Checkout ansible script
+        uses: actions/checkout@v4
+        with:
+          repository: ${{secrets.REMOTE_REPO}} #add to git!
+          ref: ${{secrets.REMOTE_REPO_BRANCH}} #add to git!
+          path: ansible-repo
+          token: ${{secrets.GITHUB_TOKEN}}
+
+#set up ec2 ssh key
+  # -add secret for ssh key -done
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{secrets.EC2_SSH_KEY}}" > ~/.ssh/key.pem
+          chmod 600 ~/.ssh/key.pem
+          ssh-keyscan -H ${{secrets.EC2_HOST}} >> ~/.ssh/known_hosts 
+
+#run ansible script on remote node
+            #don't forget to add EC2 host ip to secrets
+      - name: Run ansible playbook on ec2 instance
+        run: |
+          ansible-playbook -i inventory.yml playbook.yml \
+          -e "ansible_host=${{secrets.EC2_HOST}}"
+          
+#======================= THIS IS FOR LATER, SUBJECT TO CHANGE ===================
+#log into ec2 node using root user? 
+#create ansible user
+  # -add secret for ansible user
+#place ssh key from root user into ansible user
+
+
+  
+
