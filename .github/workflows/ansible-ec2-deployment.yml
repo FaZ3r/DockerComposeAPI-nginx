@@ -40,6 +40,18 @@ jobs:
           echo "${{secrets.EC2_SSH_KEY}}" > ~/key.pem
           chmod 600 ~/key.pem
            
+#prepare inventory file with secrets
+
+      - name: Set up env variables for inventory 
+        run: |
+          cd /home/runner/work/DockerComposeAPI-nginx/DockerComposeAPI-nginx/ansible-repo
+          echo "EC2_HOST=${{secrets.EC2_HOST}}" >> $GITHUB_ENV
+          echo "EC2_USER=${{secrets.EC2_USER}}" >> $GITHUB_ENV
+     
+      - name: Update inventory file with env variables
+        run:
+          envsubst < inventory.ini > inventory_final.ini
+
 
 #run ansible script on remote node
             #don't forget to add EC2 host ip to secrets
@@ -48,11 +60,7 @@ jobs:
           IMAGE_NAME: ${{secrets.IMAGE_NAME}}
           DB_USER: ${{secrets.DB_USER}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
-          EC2_HOST: ${{secrets.EC2_HOST}}
-          EC2_USER: ${{secrets.EC2_USER}}
-        run: |
-          cd /home/runner/work/DockerComposeAPI-nginx/DockerComposeAPI-nginx/ansible-repo
-          sed "s|\${EC2_HOST}|${EC2_HOST}|; s|\${EC2_USER}|${EC2_USER}|" inventory.ini > inventory_final.ini
+        run: |          
           ansible-playbook -i inventory_final.ini playbook.yaml
           
 #======================= THIS IS FOR LATER, SUBJECT TO CHANGE ===================
