@@ -37,10 +37,9 @@ jobs:
   # -add secret for host!!! 
       - name: Set up SSH key
         run: |
-          mkdir -p ~/.ssh
-          echo "${{secrets.EC2_SSH_KEY}}" > ~/.ssh/key.pem
-          chmod 600 ~/.ssh/key.pem
-          ssh-keyscan -H ${{secrets.EC2_HOST}} >> ~/.ssh/known_hosts 
+          echo "${{secrets.EC2_SSH_KEY}}" > ~/key.pem
+          chmod 600 ~/key.pem
+           
 
 #run ansible script on remote node
             #don't forget to add EC2 host ip to secrets
