@@ -53,7 +53,7 @@ jobs:
         run: |
           cd /home/runner/work/DockerComposeAPI-nginx/DockerComposeAPI-nginx/ansible-repo
           sed "s|\${EC2_HOST}|${EC2_HOST}|; s|\${EC2_USER}|${EC2_USER}|" inventory.ini > inventory_final.ini
-          ansible playbook -i inventory_final.ini playbook.yaml
+          ansible-playbook -i inventory_final.ini playbook.yaml
           
 #======================= THIS IS FOR LATER, SUBJECT TO CHANGE ===================
 #log into ec2 node using root user? 
