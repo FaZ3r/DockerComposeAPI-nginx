@@ -7,11 +7,11 @@ on:
       - completed
 jobs:
 #install ansible -done
-#log into github ansible repo with credentials -not needed
-  #provide credentials for said repo - NEEDED
+#log into github ansible repo with credentials -done with token
+  #provide credentials for said repo - NEEDED - done
 #checkout ansible script - done
 #install docker cli? - preinstalled on runner 
-#checkout docker-compose script
+#checkout docker-compose script -done
   provision-and-deploy-to-EC2:
     runs-on: ubuntu-latest
 
@@ -27,13 +27,14 @@ jobs:
       - name: Checkout ansible script
         uses: actions/checkout@v4
         with:
-          repository: ${{secrets.REMOTE_REPO}} #add to git!
-          ref: ${{secrets.REMOTE_REPO_BRANCH}} #add to git!
+          repository: ${{secrets.REMOTE_REPO}} #add to git! - done
+          ref: ${{secrets.REMOTE_REPO_BRANCH}} #add to git! - done 
           path: ansible-repo
-          token: ${{secrets.GITHUB_TOKEN}}
+          token: ${{secrets.REMOTE_GITHUB_TOKEN}} #modify to use a token for remote repo! - done
 
 #set up ec2 ssh key
   # -add secret for ssh key -done
+  # -add secret for host!!! 
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
@@ -44,9 +45,16 @@ jobs:
 #run ansible script on remote node
             #don't forget to add EC2 host ip to secrets
       - name: Run ansible playbook on ec2 instance
+        env:
+          IMAGE_NAME: ${{secrets.IMAGE_NAME}}
+          DB_USER: ${{secrets.DB_USER}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          EC2_HOST: ${{secrets.EC2_HOST}}
+          EC2_USER: ${{secrets.EC2_USER}}
         run: |
-          ansible-playbook -i inventory.yml playbook.yml \
-          -e "ansible_host=${{secrets.EC2_HOST}}"
+          cd ansible-repo
+          sed "s|\${EC2_HOST}|${EC2_HOST}|; s|\${EC2_USER}|${EC2_USER}|" inventory.ini > inventory_final.ini
+          ansible playbook -i inventory_final.ini playbook.yaml
           
 #======================= THIS IS FOR LATER, SUBJECT TO CHANGE ===================
 #log into ec2 node using root user? 

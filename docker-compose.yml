@@ -4,8 +4,8 @@ services:
     restart: always
     environment:
       POSTGRES_DB: database-test
-      POSTGRES_USER: ${{secrets.DB_USER}}
-      POSTGRES_PASSWORD: ${{secrets.DB_PASSWORD}}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5433:5432"
     volumes:
@@ -14,7 +14,7 @@ services:
       - my_network
     container_name: DATABASE
   app:
-    IMAGE: ${{secrets.IMAGE_NAME}}
+    IMAGE: ${IMAGE_NAME}
     container_name: applicationAPI
     depends_on:
       - db
@@ -22,8 +22,8 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/database-test
-      SPRING_DATASOURCE_USERNAME: ${{secrets.DB_USER}}
-      SPRING_DATASOURCE_PASSWORD: ${{secrets.DB_PASSWORD}}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     networks:
         - my_network
   nginx:
