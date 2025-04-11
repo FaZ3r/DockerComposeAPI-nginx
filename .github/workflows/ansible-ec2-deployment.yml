@@ -29,7 +29,7 @@ jobs:
         with:
           repository: ${{secrets.REMOTE_REPO}} #add to git! - done
           ref: ${{secrets.REMOTE_REPO_BRANCH}} #add to git! - done 
-          path: /home/runner/ansible-repo
+          path: /home/runner/work/DockerComposeAPI-nginx/DockerComposeAPI-nginx/ansible-repo
           token: ${{secrets.REMOTE_GITHUB_TOKEN}} #modify to use a token for remote repo! - done
 
 #set up ec2 ssh key
@@ -51,7 +51,7 @@ jobs:
           EC2_HOST: ${{secrets.EC2_HOST}}
           EC2_USER: ${{secrets.EC2_USER}}
         run: |
-          cd ~/ansible-repo
+          cd /home/runner/work/DockerComposeAPI-nginx/DockerComposeAPI-nginx/ansible-repo
           sed "s|\${EC2_HOST}|${EC2_HOST}|; s|\${EC2_USER}|${EC2_USER}|" inventory.ini > inventory_final.ini
           ansible playbook -i inventory_final.ini playbook.yaml
           
