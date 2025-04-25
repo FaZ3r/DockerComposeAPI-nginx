@@ -58,8 +58,9 @@ jobs:
           IMAGE_NAME: ${{secrets.IMAGE_NAME}}
           DB_USER: ${{secrets.DB_USER}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
-        run: |          
-          ansible-playbook -i inventory.ini playbook.yaml
+        run: |     
+          export ANSIBLE_HOST_KEY_CHECKING=False     
+          ansible-playbook -i inventory.ini playbook.yaml 
           
 #======================= THIS IS FOR LATER, SUBJECT TO CHANGE ===================
 #log into ec2 node using root user? 
