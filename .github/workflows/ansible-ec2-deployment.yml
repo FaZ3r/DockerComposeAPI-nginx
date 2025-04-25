@@ -41,14 +41,14 @@ jobs:
            
 #prepare inventory file with secrets
 
-      - name: Set up env variables for inventory 
-        run: |
-          echo "EC2_HOST=${{secrets.EC2_HOST}}" >> $GITHUB_ENV
-          echo "EC2_USER=${{secrets.EC2_USER}}" >> $GITHUB_ENV
+   #   - name: Set up env variables for inventory 
+    #    run: |
+     #     echo "EC2_HOST=${{secrets.EC2_HOST}}" >> $GITHUB_ENV
+      #    echo "EC2_USER=${{secrets.EC2_USER}}" >> $GITHUB_ENV
      
-      - name: Update inventory file with env variables
-        run:
-          envsubst < inventory.ini > inventory_final.ini
+      #- name: Update inventory file with env variables
+       # run:
+        #  envsubst < inventory.ini > inventory_final.ini
 
 
 #run ansible script on remote node
@@ -59,7 +59,7 @@ jobs:
           DB_USER: ${{secrets.DB_USER}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
         run: |          
-          ansible-playbook -i inventory_final.ini playbook.yaml
+          ansible-playbook -i inventory.ini playbook.yaml
           
 #======================= THIS IS FOR LATER, SUBJECT TO CHANGE ===================
 #log into ec2 node using root user? 
