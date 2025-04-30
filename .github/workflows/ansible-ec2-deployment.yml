@@ -33,7 +33,7 @@ jobs:
           repository: ${{secrets.REMOTE_REPO}} #add to git! - done
           ref: ${{secrets.REMOTE_REPO_BRANCH}} #add to git! - done 
           token: ${{secrets.REMOTE_GITHUB_TOKEN}} #modify to use a token for remote repo! - done
-          path: /ansible-script
+          path: ansible-script
 #set up ec2 ssh key
   # -add secret for ssh key -done
   # -add secret for host!!! 
