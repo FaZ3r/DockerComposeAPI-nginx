@@ -39,8 +39,8 @@ jobs:
   # -add secret for host!!! 
       - name: Set up SSH key
         run: |
-          echo "${{secrets.EC2_SSH_KEY}}" > key.pem
-          chmod 600 key.pem
+          echo "${{secrets.EC2_SSH_KEY}}" > ~/key.pem
+          chmod 600 ~/key.pem
            
 #prepare inventory file with secrets
 
