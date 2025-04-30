@@ -60,6 +60,7 @@ jobs:
         run: |
           mv key.pem ansible-script
           mv docker-compose.yml ansible-script
+          mv nginx ansible-script
           
       - name: Run ansible playbook on ec2 instance
         env:
