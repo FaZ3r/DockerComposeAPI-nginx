@@ -62,7 +62,10 @@ jobs:
           DB_USER: ${{secrets.DB_USER}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
         run: |     
+          ls -al
+          mv key.pem ansible-script
           cd ansible-script
+          ls -al
           export ANSIBLE_HOST_KEY_CHECKING=False     
           ansible-playbook -i inventory.ini playbook.yaml 
           
