@@ -56,16 +56,18 @@ jobs:
 
 #run ansible script on remote node
             #don't forget to add EC2 host ip to secrets
+      - name: Moving files prior to deployment
+        run: |
+          mv key.pem ansible-script
+          mv docker-compose.yml ansible-script
+          
       - name: Run ansible playbook on ec2 instance
         env:
           IMAGE_NAME: ${{secrets.IMAGE_NAME}}
           DB_USER: ${{secrets.DB_USER}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
         run: |     
-          ls -al
-          mv key.pem ansible-script
           cd ansible-script
-          ls -al
           export ANSIBLE_HOST_KEY_CHECKING=False     
           ansible-playbook -i inventory.ini playbook.yaml 
           
