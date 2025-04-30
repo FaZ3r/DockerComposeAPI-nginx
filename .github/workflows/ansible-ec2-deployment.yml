@@ -24,19 +24,21 @@ jobs:
           sudo apt update
           sudo apt install -y ansible
       
+      - name: Create folder for ansible repository
+        run: mkdir ansible-script
+
       - name: Checkout ansible script
         uses: actions/checkout@v4
         with:
           repository: ${{secrets.REMOTE_REPO}} #add to git! - done
           ref: ${{secrets.REMOTE_REPO_BRANCH}} #add to git! - done 
           token: ${{secrets.REMOTE_GITHUB_TOKEN}} #modify to use a token for remote repo! - done
-
+          path: /ansible-script
 #set up ec2 ssh key
   # -add secret for ssh key -done
   # -add secret for host!!! 
       - name: Set up SSH key
         run: |
-          ls -al
           echo "${{secrets.EC2_SSH_KEY}}" > key.pem
           chmod 600 key.pem
            
@@ -60,6 +62,7 @@ jobs:
           DB_USER: ${{secrets.DB_USER}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
         run: |     
+          cd ansible-script
           export ANSIBLE_HOST_KEY_CHECKING=False     
           ansible-playbook -i inventory.ini playbook.yaml 
           
