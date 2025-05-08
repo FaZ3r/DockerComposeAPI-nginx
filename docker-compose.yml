@@ -35,8 +35,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./myapp/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./myapp/nginx/conf.d:/etc/nginx/conf.d
     networks:
       - my_network
 networks:
