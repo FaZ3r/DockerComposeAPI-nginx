@@ -6,12 +6,7 @@ on:
     types: 
       - completed
 jobs:
-#install ansible -done
-#log into github ansible repo with credentials -done with token
-  #provide credentials for said repo - NEEDED - done
-#checkout ansible script - done
-#install docker cli? - preinstalled on runner 
-#checkout docker-compose script -done
+
   provision-and-deploy-to-EC2:
     runs-on: ubuntu-latest
 
@@ -30,17 +25,16 @@ jobs:
       - name: Checkout ansible script
         uses: actions/checkout@v4
         with:
-          repository: ${{secrets.REMOTE_REPO}} #add to git! - done
-          ref: ${{secrets.REMOTE_REPO_BRANCH}} #add to git! - done 
-          token: ${{secrets.REMOTE_GITHUB_TOKEN}} #modify to use a token for remote repo! - done
+          repository: ${{secrets.REMOTE_REPO}} 
+          ref: ${{secrets.REMOTE_REPO_BRANCH}}  
+          token: ${{secrets.REMOTE_GITHUB_TOKEN}} 
           path: ansible-script
-#set up ec2 ssh key
-  # -add secret for ssh key -done
-  # -add secret for host!!! 
+
       - name: Set up SSH key
         run: |
           echo "${{secrets.EC2_SSH_KEY}}" > key.pem
-          chmod 600 key.pem
+          echo "${{secrets.PRIVATE_NODE_KEY}}" > key_private.pem
+          chmod 600 key.pem key_private.pem
            
 #prepare inventory file with secrets
 
@@ -54,11 +48,10 @@ jobs:
         #  envsubst < inventory.ini > inventory_final.ini
 
 
-#run ansible script on remote node
-            #don't forget to add EC2 host ip to secrets
-      - name: Moving files prior to deployment
+      - name: Moving files prior to deployment into directory
         run: |
           mv key.pem ansible-script
+          mv key_private.pem ansible-script 
           mv docker-compose.yml ansible-script
           mv nginx ansible-script
           
@@ -72,12 +65,3 @@ jobs:
           export ANSIBLE_HOST_KEY_CHECKING=False     
           ansible-playbook -i inventory.ini playbook.yaml 
           
-#======================= THIS IS FOR LATER, SUBJECT TO CHANGE ===================
-#log into ec2 node using root user? 
-#create ansible user
-  # -add secret for ansible user
-#place ssh key from root user into ansible user
-
-
-  
-
