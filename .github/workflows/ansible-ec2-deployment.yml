@@ -63,5 +63,5 @@ jobs:
         run: |     
           cd ansible-script
           export ANSIBLE_HOST_KEY_CHECKING=False     
-          ansible-playbook -i inventory.ini playbook.yaml 
+          ansible-playbook -vvv -i inventory.ini playbook.yaml 
           
